@@ -2210,6 +2210,7 @@ GameObject:
   - component: {fileID: 8878620333781768575}
   - component: {fileID: 2856230025038407330}
   - component: {fileID: 7339898072406718221}
+  - component: {fileID: 415220737137645536}
   m_Layer: 0
   m_Name: Submarine
   m_TagString: Untagged
@@ -2482,6 +2483,18 @@ CapsuleCollider:
   m_Height: 1.4505901
   m_Direction: 1
   m_Center: {x: -0.030000687, y: -0.10217953, z: 0.038161635}
+--- !u!114 &415220737137645536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522010499812269346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38fdf92bf91d434fb11f3928868d304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8660883004681574159
 GameObject:
   m_ObjectHideFlags: 0
