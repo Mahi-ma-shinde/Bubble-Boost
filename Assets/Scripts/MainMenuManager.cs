@@ -2,15 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
     public GameObject MapView;
     public GameObject OptionsMenu;
     public bool open;
+
+    public void OpenLevel(int levelId)
+    {
+        SceneManager.LoadScene(levelId);
+    }
+    
     public void OnClickPlay()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadSceneAsync(1);
+        
     }
     public void OnclickMaps()
     {
@@ -25,20 +33,24 @@ public class MainMenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+    public void OnClickReset()
+    {
+        PlayerPrefs.DeleteAll();
+        Scene scene = SceneManager.GetActiveScene(); 
+        SceneManager.LoadScene(scene.name);
+    }
     public void OnClickBack()
     {
         open = false;
         OptionsMenu.SetActive(false);
     }
-    // Start is called before the first frame update
-    void Start()
+    public void OnClickResetBut()
     {
 
+        
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OnClickBackToMenu()
     {
-
+        SceneManager.LoadSceneAsync(0);
     }
 }

@@ -24,8 +24,9 @@ public class CollisionHandler : MonoBehaviour
 
     void Update()
     {
-        RespondToDebugKeys(); 
+        RespondToDebugKeys();
     }
+
 
     void RespondToDebugKeys()
     {
@@ -83,6 +84,8 @@ public class CollisionHandler : MonoBehaviour
         mainbooster.Stop();
         GetComponent<Movement>().enabled = false;
         Invoke("NextLevel", delay);
+        
+
     }
     void NextLevel()
     {
@@ -93,6 +96,7 @@ public class CollisionHandler : MonoBehaviour
             nextSceneIndex = 0;
         }
         SceneManager.LoadScene(nextSceneIndex);
+
     }
     
 }

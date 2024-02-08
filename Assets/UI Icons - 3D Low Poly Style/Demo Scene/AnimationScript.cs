@@ -52,8 +52,6 @@ namespace FWC
                     rectTransform.anchoredPosition = new Vector2(0, max);
 
                 }
-
-
                 float temp = max;
                 float temp2 = min;
 
