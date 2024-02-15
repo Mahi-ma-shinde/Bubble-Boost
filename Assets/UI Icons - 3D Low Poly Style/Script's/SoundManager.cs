@@ -1,53 +1,46 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 namespace FWC
 {
     public class SoundManager : MonoBehaviour
     {
-        //Armazenar o Mixer
+        private Music music;
+        public Button SFXToggleButton;
+        public Button MusicToggleButton;
+        //public Button MToggleLevel;
+
+        public Sprite musicOnSprite;
+        public Sprite musicOffSprite;
+        public Sprite sfxOnSprite;
+        public Sprite sfxOffSprite;
 
         public AudioMixer masterMixer;
-
-        //public AudioSource source_Dialogo; //audio source da música
-
         private float volume_sfx = 1;
         private float volume_music = 1;
 
-        //Mute
+        public AudioClip[] clip_SFX; 
+        public AudioClip[] clip_Music; 
 
-        [SerializeField] Image image_SFX, image_Music; //Armazenar imagem do botão mute da cena
+        public AudioSource source_SFX; 
+        public AudioSource source_Music;
 
-        public Sprite[] sprite_SFX , sprite_Music; //Armazenar sprites "Icon_music On" e "Icon_music Off"
-
-        //Referencia estática deste Script, para que ele possa ser acessado pelos outros scripts
+        AudioSource audioSource;
 
         public static SoundManager Instance;
-
-
-        //checar se está mutado ou não
-
-        private bool muteSFX, muteMusic;
-
-        //Armazenar áudios como .mp4 .ogg
-
-        public AudioClip[] clip_SFX; //efeitos sonoros
-        public AudioClip[] clip_Music; //música
-
-        //Armazenar Audio Sources da cena
-
-        public AudioSource source_SFX; //audio source para efeitos sonoros
-        public AudioSource source_Music; //audio source para música
-
-
         private void Awake()
         {
             Instance = this;
         }
 
         private void Start()
-        {        
+        {
+            audioSource = GetComponent<AudioSource>();
+            music = GameObject.FindObjectOfType<Music>();
+            UpdateIconandSFX();
+            UpdateIconandMusic();
             source_Music.volume = volume_music;            
             source_SFX.volume = volume_sfx;            
         }
@@ -74,60 +67,75 @@ namespace FWC
             source_Music.clip = clip_Music[i];
             source_Music.PlayOneShot(source_Music.clip);
         }
-   
+
 
         public void MuteMusic()
         {
-            muteMusic = !muteMusic;
 
-            if (muteMusic)
-            {                
-                image_Music.sprite = sprite_Music[1];
-                masterMixer.SetFloat("VolumeMusic", -80f);
-                return;
+            music.ToggleSoundMusic();
+            UpdateIconandMusic();
+
+        }
+        public void MusicLevelMuteButton()
+        {
+            music.ToggleSoundMusic();
+            if (PlayerPrefs.GetInt("Muted", 0) == 0)
+            {
+                masterMixer.SetFloat("VolumeMusic", volume_music);
+                MusicToggleButton.GetComponent<Image>().sprite = musicOnSprite;
             }
-
-            image_Music.sprite = sprite_Music[0];
-            masterMixer.SetFloat("VolumeMusic", volume_music);
-
+            else
+            {
+                masterMixer.SetFloat("VolumeMusic", -80f);
+                MusicToggleButton.GetComponent<Image>().sprite = musicOffSprite;
+            }
+        }
+        void UpdateIconandMusic()
+        {
+            if (PlayerPrefs.GetInt("Muted", 0) == 0)
+            {
+                masterMixer.SetFloat("VolumeMusic", volume_music);
+                MusicToggleButton.GetComponent<Image>().sprite = musicOnSprite;
+            }
+            else
+            {
+                masterMixer.SetFloat("VolumeMusic", -80f);
+                MusicToggleButton.GetComponent<Image>().sprite = musicOffSprite;
+            }
         }
 
         public void MuteSFX()
         {
-            muteSFX = !muteSFX;
-
-            if (muteSFX)
+            music.ToggleSoundSFX();
+            UpdateIconandSFX();
+        }
+        void UpdateIconandSFX()
+        {
+            if(PlayerPrefs.GetInt("SMuted", 0) == 0)
             {
-                image_SFX.sprite = sprite_SFX[1];
-                masterMixer.SetFloat("VolumeSFX", -80f);
-                return;
+                masterMixer.SetFloat("VolumeSFX", volume_sfx);
+                SFXToggleButton.GetComponent<Image>().sprite = sfxOnSprite;
             }
-
-            image_SFX.sprite = sprite_SFX[0];
-            masterMixer.SetFloat("VolumeSFX", volume_sfx);
-
+            else
+            {
+                masterMixer.SetFloat("VolumeSFX", -80f);
+                SFXToggleButton.GetComponent<Image>().sprite = sfxOffSprite;
+            }
         }
-
-        public void ChangeVolumeMusic(float musicVol)
+        public void SFXLevelMuteButton()
         {
-            volume_music = musicVol;
-
-            if (muteMusic) return;
-
-            masterMixer.SetFloat("VolumeMusic", musicVol);
+            music.ToggleSoundSFX();
+            if (PlayerPrefs.GetInt("SMuted", 0) == 0)
+            {
+                masterMixer.SetFloat("VolumeSFX", volume_sfx);
+                SFXToggleButton.GetComponent<Image>().sprite = sfxOnSprite;
+            }
+            else
+            {
+                masterMixer.SetFloat("VolumeSFX", -80f);
+                SFXToggleButton.GetComponent<Image>().sprite = sfxOffSprite;
+            }
         }
-
-        public void ChangeVolumeSFX(float sfxVol)
-        {
-            volume_sfx = sfxVol;
-
-            if (muteSFX) return;
-
-            masterMixer.SetFloat("VolumeSFX", sfxVol);
-        }
-
-
-
     }
 
 }

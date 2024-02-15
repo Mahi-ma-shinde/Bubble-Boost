@@ -10,6 +10,7 @@ TagManager:
   - spinnerwheel1
   - spinnerwheel2
   - Environment
+  - Destroy
   layers:
   - Default
   - TransparentFX

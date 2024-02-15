@@ -5,7 +5,7 @@ namespace FWC
 {
     public class HoverAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
     {
-
+        Vector3 currentScale;
         [SerializeField] float scaleChange = 1.1f;
 
         [SerializeField] AudioSource source;
@@ -13,6 +13,7 @@ namespace FWC
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            currentScale = transform.localScale;
             transform.localScale *= scaleChange;
 
             if (source.clip == null) return;
@@ -23,13 +24,13 @@ namespace FWC
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = currentScale;
 
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = currentScale;
         }
     }
 
