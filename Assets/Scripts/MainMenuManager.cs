@@ -10,15 +10,25 @@ public class MainMenuManager : MonoBehaviour
     public GameObject OptionsMenu;
     public bool open;
 
+    private int currentSceneIndex;
+
+    private int sceneToContinue;
+
     public void OpenLevel(int levelId)
     {
         SceneManager.LoadScene(levelId);
     }
     
-    public void OnClickPlay()
+    public void OnClickPlayContinue()
     {
-        SceneManager.LoadSceneAsync(1);
-        
+        sceneToContinue = PlayerPrefs.GetInt("SavedScene");
+        if (sceneToContinue > 1)
+        {
+            SceneManager.LoadScene(sceneToContinue);
+        }
+        else
+            SceneManager.LoadScene(1);
+
     }
     public void OnclickMaps()
     {
@@ -39,18 +49,20 @@ public class MainMenuManager : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene(); 
         SceneManager.LoadScene(scene.name);
     }
+    public void OnClickRestart()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadSceneAsync(currentSceneIndex);
+    }
     public void OnClickBack()
     {
         open = false;
         OptionsMenu.SetActive(false);
     }
-    public void OnClickResetBut()
-    {
-
-        
-    }
     public void OnClickBackToMenu()
     {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt("SavedScene", currentSceneIndex);
         SceneManager.LoadSceneAsync(0);
     }
 }
